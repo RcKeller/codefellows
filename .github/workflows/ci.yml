@@ -1,9 +1,5 @@
 name: CI
-on:
-  push:
-    branches:
-      - "class-*"
-      - "!main"
+on: [pull_request, push]
 jobs:
   lint:
     runs-on: ubuntu-latest # operating system your code will run on
