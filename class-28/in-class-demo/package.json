@@ -1,4 +1,6 @@
 {
+  "name": "@codefellows/class-28",
+  "version": "1.0.0",
   "scripts": {
     "dev": "python manage.py runserver",
     "lint": "python manage.py check",

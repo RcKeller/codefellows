@@ -120,3 +120,8 @@ node_modules/
 
 # poetry
 poetry.lock
+
+# npm modules
+./**/yarn.lock
+**/package-lock.json
+package-lock.json

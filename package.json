@@ -1,0 +1,23 @@
+{
+  "name": "@rckeller/seattle-code-python-401n7",
+  "description": "seattle-code-python-401n7",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codefellows/seattle-code-python-401n7"
+  },
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "^18.16.0",
+    "npm": "please-use-yarn",
+    "yarn": "^1.22.17"
+  },
+  "workspaces": [
+    "class-*",
+    "class-*/*",
+    "class-28/*"
+  ],
+  "scripts": {
+    "postinstall": "virtualenv activate & pip install django"
+  }
+}

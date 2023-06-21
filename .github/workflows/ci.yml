@@ -7,19 +7,19 @@ jobs:
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10.9'
-          cache: 'pip'
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'npm'
+          cache: "yarn"
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10.9"
+          cache: "pip"
       - run: pip install flake8
       - run: pip install django
       - run: pip install pytest
       # - run: pip install -r requirements.txt # install all our dependencies for the project
-        working-directory: ${{ env.BRANCH_NAME }}
+      # working-directory: ${{ env.BRANCH_NAME }}
       - run: pytest . # run pytest test
         working-directory: ${{ env.BRANCH_NAME }}
       - run: flake8 . # run flake8 test
