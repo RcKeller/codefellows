@@ -1,5 +1,9 @@
 name: CI
-on: [pull_request, push] # activates the workflow when there is a push or pull request in the repo
+on:
+  push:
+    branches:
+      - "class-*"
+      - "!main"
 jobs:
   lint:
     runs-on: ubuntu-latest # operating system your code will run on
@@ -17,9 +21,18 @@ jobs:
           cache: "pip"
       - run: pip install flake8
       - run: pip install django
-      - run: flake8 . # run flake8 test
+      - name: Lint
+        id: lint
+        run: flake8 . # run flake8 test
         working-directory: ${{ env.BRANCH_NAME }}
-        continue-on-error: true # because most classes won't have unit tests
+        continue-on-error: true
+      - name: Skip CI run if tests failed
+        if: ${{ steps.lint.outcome == 'failure' }}
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   test:
     runs-on: ubuntu-latest # operating system your code will run on
     env:
@@ -38,6 +51,15 @@ jobs:
       - run: pip install pytest
       # - run: pip install -r requirements.txt # install all our dependencies for the project
       # working-directory: ${{ env.BRANCH_NAME }}
-      - run: pytest . # run pytest test
+      - name: Unit Tests
+        id: pytest
+        run: pytest . # run pytest test
         working-directory: ${{ env.BRANCH_NAME }}
         continue-on-error: true # because most classes won't have unit tests
+      - name: Skip CI run if tests failed
+        if: ${{ steps.pytest.outcome == 'failure' }}
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
