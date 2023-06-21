@@ -1,0 +1,22 @@
+name: test_Django
+on: [pull_request, push] # activates the workflow when there is a push or pull request in the repo
+jobs:
+  test_project:
+    runs-on: ubuntu-latest # operating system your code will run on
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.9'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: pip install flake8
+      - run: pip install -r requirements.txt # install all our dependencies for the project
+        working-directory: ${{ env.BRANCH_NAME }}
+      - run: pytest . # run pytest test
+        working-directory: ${{ env.BRANCH_NAME }}
+      - run: flake8 . # run flake8 test
+        working-directory: ${{ env.BRANCH_NAME }}

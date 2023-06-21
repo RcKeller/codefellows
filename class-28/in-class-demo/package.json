@@ -1,4 +1,10 @@
 {
+  "scripts": {
+    "dev": "python manage.py runserver",
+    "lint": "python manage.py check",
+    "freeze": "pip freeze > requirements.txt",
+    "postinstall": "virtualenv activate & pip install django"
+  },
   "devDependencies": {
     "tailwindcss": "^3.3.2"
   },
